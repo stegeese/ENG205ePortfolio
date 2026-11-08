@@ -354,38 +354,38 @@ const P = {
     ["Intellectual anchoring (“Mt. Ignorance”)","I stay grounded by actively recognizing the limits of my knowledge, remaining humble, and staying open to feedback to protect myself against false confidence."]
   ],
   interests: ["Trivia challenges","Crossword puzzles","Sudoku","Traveling","Collecting watches","Video games","Gunpla kits"],
-  // ARTIFACT TEMPLATE: copy this into any artifacts:[ ] list below.
+  // ARTIFACT TEMPLATE: copy this sa artifacts:[ ] list below.
   // {type:"image", src:"images/so1-problem-set.jpg", title:"Title", meta:"Course, date", text:"What this is.", reflection:"What I learned and how it shows this outcome."}
   // type: "image" (src can also be a list of images) | "video" (mp4 file or YouTube/Vimeo link) | "pdf" | "ppt" (.pptx file or Google Slides link) | "file"
   abet: [
     {so:1, title:"Solve", ptc:"a, e, k",
      short:"Identify, formulate, and solve complex engineering problems",
      outcome:"An ability to identify, formulate, and solve complex engineering problems by applying principles of engineering, science, and mathematics.",
-     ideas:"worked problem sets, math or science olympiad solutions, engineering mechanics problems",
+     ideas:"worked problem sets, engineering problems",
      prompt:"What problem did I solve? Which principles of engineering, science, or mathematics did I apply, and what would I do differently next time?",
      artifacts:[]},
     {so:2, title:"Design", ptc:"c, k",
      short:"Apply engineering design to meet specified needs",
      outcome:"An ability to apply engineering design to produce solutions that meet specified needs with consideration of public health, safety, and welfare, as well as global, cultural, social, environmental, and economic factors.",
-     ideas:"SumoBot build, CAD models, engineering drawings, a design project",
+     ideas:"CAD models, engineering drawings, design project",
      prompt:"What need was I designing for? Which constraints (safety, cost, environment, society) shaped my design, and how did it change along the way?",
      artifacts:[]},
     {so:3, title:"Communicate", ptc:"g",
      short:"Communicate effectively with a range of audiences",
      outcome:"An ability to communicate effectively with a range of audiences.",
-     ideas:"technical report, poster, oral presentation slides, feature article, recorded talk",
+     ideas:"technical report, poster, presentation slides, articles",
      prompt:"Who was my audience, and how did I adjust my message for them? What feedback did I get, and what would I improve?",
      artifacts:[]},
     {so:4, title:"Be Professional", ptc:"f, h, j",
      short:"Recognize ethical and professional responsibilities",
      outcome:"An ability to recognize ethical and professional responsibilities in engineering situations and make informed judgments, which must consider the impact of engineering solutions in global, economic, environmental, and societal contexts.",
-     ideas:"ethics case study, code of ethics activity, seminar or webinar notes, community service",
+     ideas:"ethics case study, seminar or webinar notes, community service",
      prompt:"What ethical or professional issue did I face? How did I weigh its impact on society, the environment, and the economy before making a judgment?",
      artifacts:[]},
     {so:5, title:"Teamwork", ptc:"d, l",
      short:"Function effectively on a team",
      outcome:"An ability to function effectively on a team whose members together provide leadership, create a collaborative and inclusive environment, establish goals, plan tasks, and meet objectives.",
-     ideas:"group project, robotics team work, volunteer or organization activity, team plan or minutes",
+     ideas:"group project, volunteer or organization activity, team plan",
      prompt:"What was my role on the team? How did we set goals, divide tasks, and handle disagreements, and what did I learn about working with others?",
      artifacts:[]},
     {so:6, title:"Experiment", ptc:"b, k",
@@ -397,7 +397,7 @@ const P = {
     {so:7, title:"Learn New Knowledge", ptc:"i",
      short:"Acquire and apply new knowledge as needed",
      outcome:"An ability to acquire and apply new knowledge as needed, using appropriate learning strategies.",
-     ideas:"online course certificate, self-taught software or tool (CAD, Arduino), workshop or training",
+     ideas:"workshop or training",
      prompt:"What did I need to learn on my own? Which learning strategies worked, and how did I apply the new knowledge?",
      artifacts:[]}
   ]
@@ -407,7 +407,7 @@ const P = {
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;");
 
-// gear drawing
+// gear
 function gearPath(n){let d="";const st=2*Math.PI/n,ro=100,ri=82;for(let i=0;i<n;i++){const a=i*st;[[ri,-.28],[ro,-.17],[ro,.17],[ri,.28]].forEach((p,j)=>{d+=(i===0&&j===0?"M":"L")+(Math.cos(a+p[1]*st)*p[0]).toFixed(1)+" "+(Math.sin(a+p[1]*st)*p[0]).toFixed(1)+" "})}return d+"ZM28 0A28 28 0 1 0 -28 0A28 28 0 1 0 28 0Z"}
 const GEAR=`<svg viewBox="-100 -100 200 200" aria-hidden="true"><path fill-rule="evenodd" d="${gearPath(10)}"/></svg>`;
 document.querySelectorAll("path[data-g]").forEach(p=>p.setAttribute("d",gearPath(+p.dataset.g)));
@@ -419,11 +419,11 @@ mq("#mq1"); mq("#mq2");
 // profile photo
 if (P.profilePhoto) $("#photo").innerHTML = `<img src="${P.profilePhoto}" alt="Portrait of Aesha Juntilla">`;
 
-// education (click to open)
+// education
 $("#edu").innerHTML = P.education.map(e=>`<li class="row"><button aria-expanded="false"><span class="n">${e[2]}</span><span class="s">${esc(e[1])}${e[3]?`<small>${e[3]}</small>`:""}</span><span class="lv">${esc(e[0])}</span></button><div class="more"><p>${P.educationNote}</p></div></li>`).join("");
 $("#edu").addEventListener("click",e=>{const r=e.target.closest(".row");if(!r)return;const o=r.classList.toggle("open");r.querySelector("button").setAttribute("aria-expanded",o)});
 
-// awards, grouped by category
+// awards
 const kind = r => /^(1st|Champion)/.test(r) ? "top" : /Qualifier|Participant/.test(r) ? "qp" : "place";
 const rank = r => /^(1st|Champion)/.test(r)?1:/^2nd Place/.test(r)?2:/^(3rd|2nd Runner)/.test(r)?3:/^5th/.test(r)?5:/Qualifier/.test(r)?8:9;
 const cats = [...new Set(P.awards.map(a=>a[2]))];
@@ -438,7 +438,7 @@ $("#chips").addEventListener("click",e=>{
 // goals
 $("#steps").insertAdjacentHTML("beforeend",P.goals.map(g=>`<div class="step"><h3>${esc(g[0])}</h3><p>${esc(g[1])}</p></div>`).join(""));
 
-// values (accordion) and interests
+// values and interests
 $("#vals").innerHTML=P.values.map((v,i)=>`<div class="val ${i==0?"open":""}"><button aria-expanded="${i==0}"><span>${esc(v[0])}</span><span class="pl"></span></button><div class="more"><p>${esc(v[1])}</p></div></div>`).join("");
 $("#vals").addEventListener("click",e=>{const v=e.target.closest(".val");if(!v)return;const o=v.classList.toggle("open");v.querySelector("button").setAttribute("aria-expanded",o)});
 $("#int").innerHTML=P.interests.map(i=>`<span>${esc(i)}</span>`).join("");
@@ -472,13 +472,13 @@ const lb=$("#lb");
 document.addEventListener("click",e=>{const t=e.target.closest("button.tile");if(t){$("#lbi").src=t.dataset.src;$("#lbc").textContent=t.dataset.cap;lb.classList.add("on")}else if(lb.classList.contains("on"))lb.classList.remove("on")});
 addEventListener("keydown",e=>{if(e.key==="Escape")lb.classList.remove("on")});
 
-// headline mask reveal
+
 document.querySelectorAll("h2.r").forEach(h=>{h.classList.add("rv");h.innerHTML=`<span>${h.innerHTML}</span>`});
 const io=new IntersectionObserver(es=>es.forEach(en=>{if(!en.isIntersecting)return;en.target.classList.add("in");io.unobserve(en.target)}),{threshold:.3});
 document.querySelectorAll("section h2.rv").forEach(h=>{const d=document.createElement("div");d.className="dim";h.after(d);io.observe(d)});
 document.querySelectorAll(".rv").forEach(h=>io.observe(h));
 
-// scroll effects: progress bar, nav hide, goals line
+// scroll effects
 let last=0;
 const nav=$("#nav");
 addEventListener("scroll",()=>{
@@ -489,7 +489,7 @@ addEventListener("scroll",()=>{
   $("#line").style.transform=`scaleY(${Math.min(Math.max((innerHeight*.65-s.top)/s.height,0),1)})`;
 },{passive:true});
 
-// hero disc follows pointer
+// hero disc something
 addEventListener("pointermove",e=>{if(scrollY>innerHeight)return;$("#disc").style.transform=`translate(${(e.clientX/innerWidth-.5)*-40}px,${(e.clientY/innerHeight-.5)*-40}px)`});
 
 // dropdown menus
